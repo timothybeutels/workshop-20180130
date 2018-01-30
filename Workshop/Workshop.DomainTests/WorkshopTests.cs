@@ -1,6 +1,7 @@
 ﻿using System;
 using NodaTime;
 using NUnit.Framework;
+using Workshop.DomainTests.Testing;
 
 namespace Workshop.DomainTests
 {
@@ -13,7 +14,7 @@ namespace Workshop.DomainTests
             var customerId = "C9F9DFC0-3FDE-4C54-A729-5E82E0EB4D4D";
             var startTime = new LocalDateTime(2018, 1, 30, 14, 23);
 
-            new WorkshopTestFixture()
+            new WorkshopTestFixture("CustomerStartedShopping when StartShopping")
                 .When(new StartShoppingCommand(customerId, cartId, startTime))
                 .Then(new CustomerStartedShoppingEvent(cartId));
             
@@ -26,7 +27,7 @@ namespace Workshop.DomainTests
             var customerId = "C9F9DFC0-3FDE-4C54-A729-5E82E0EB4D4D";
             var startTime = new LocalDateTime(2018, 1, 30, 14, 23);
 
-            new WorkshopTestFixture()
+            new WorkshopTestFixture("NotCustomerStartedShopping_when_StartShoppingAndAlreadyStartedShopping")
                 .Given(new CustomerStartedShoppingEvent(cartId))
                 .When(new StartShoppingCommand(customerId, cartId, startTime))
                 .ThenNothing();
@@ -39,7 +40,7 @@ namespace Workshop.DomainTests
             var customerId = "C9F9DFC0-3FDE-4C54-A729-5E82E0EB4D4D";
             var startTime = new LocalDateTime(2018, 1, 30, 14, 23);
 
-            new WorkshopTestFixture()
+            new WorkshopTestFixture("RemoveProduct_ProductAdded_ProductRemoved")
                 .Given(new CustomerStartedShoppingEvent(cartId))
                 .Given(new ProductWasAddedToCartEvent(cartId, "my-sku", 2d, startTime))
                 .When(new RemoveProductFromCartCommand(cartId, "my-sku", startTime))
@@ -53,7 +54,7 @@ namespace Workshop.DomainTests
             var customerId = "C9F9DFC0-3FDE-4C54-A729-5E82E0EB4D4D";
             var startTime = new LocalDateTime(2018, 1, 30, 14, 23);
 
-            new WorkshopTestFixture()
+            new WorkshopTestFixture("RemoveProduct_ProductNotAdded_NothingHappens")
                 .Given(new CustomerStartedShoppingEvent(cartId))
                 .When(new RemoveProductFromCartCommand(cartId, "my-sku", startTime))
                 .ThenNothing();
@@ -66,7 +67,7 @@ namespace Workshop.DomainTests
             var customerId = "C9F9DFC0-3FDE-4C54-A729-5E82E0EB4D4D";
             var startTime = new LocalDateTime(2018, 1, 30, 14, 23);
 
-            new WorkshopTestFixture()
+            new WorkshopTestFixture("RemoveProduct_ProductNotAddedButOtherIs_NothingHappens")
                 .Given(new CustomerStartedShoppingEvent(cartId))
                 .Given(new ProductWasAddedToCartEvent(cartId, "my-other-sku", 2d, startTime))
                 .When(new RemoveProductFromCartCommand(cartId, "my-sku", startTime))
@@ -80,7 +81,7 @@ namespace Workshop.DomainTests
             var customerId = "C9F9DFC0-3FDE-4C54-A729-5E82E0EB4D4D";
             var startTime = new LocalDateTime(2018, 1, 30, 14, 23);
 
-            new WorkshopTestFixture()
+            new WorkshopTestFixture("RemoveProduct_ShoppingNotStarted_NothingHappens")
                 .When(new RemoveProductFromCartCommand(cartId, "my-sku", startTime))
                 .ThenNothing();
         }
@@ -92,7 +93,7 @@ namespace Workshop.DomainTests
             var customerId = "C9F9DFC0-3FDE-4C54-A729-5E82E0EB4D4D";
             var startTime = new LocalDateTime(2018, 1, 30, 14, 23);
 
-            new WorkshopTestFixture()
+            new WorkshopTestFixture("PlaceOrder_ProductsAdded_OrderPlaced")
                 .Given(new CustomerStartedShoppingEvent(cartId))
                 .Given(new ProductWasAddedToCartEvent(cartId, "my-sku", 2d, startTime))
                 .When(new PlaceOrderCommand(cartId, startTime))
@@ -109,7 +110,7 @@ namespace Workshop.DomainTests
             var customerId = "C9F9DFC0-3FDE-4C54-A729-5E82E0EB4D4D";
             var startTime = new LocalDateTime(2018, 1, 30, 14, 23);
 
-            new WorkshopTestFixture()
+            new WorkshopTestFixture("PlaceOrder_SameProductMultipleTimesAdded_OrderPlaced")
                 .Given(new CustomerStartedShoppingEvent(cartId))
                 .Given(new ProductWasAddedToCartEvent(cartId, "my-sku", 2d, startTime))
                 .Given(new ProductWasAddedToCartEvent(cartId, "my-sku", 2d, startTime))
@@ -127,7 +128,7 @@ namespace Workshop.DomainTests
             var customerId = "C9F9DFC0-3FDE-4C54-A729-5E82E0EB4D4D";
             var startTime = new LocalDateTime(2018, 1, 30, 14, 23);
 
-            new WorkshopTestFixture()
+            new WorkshopTestFixture("PlaceOrder_MultipleProductsAdded_OrderPlaced")
                 .Given(new CustomerStartedShoppingEvent(cartId))
                 .Given(new ProductWasAddedToCartEvent(cartId, "my-sku", 2d, startTime))
                 .Given(new ProductWasAddedToCartEvent(cartId, "my-sku-2", 15d, startTime))
@@ -146,7 +147,7 @@ namespace Workshop.DomainTests
             var customerId = "C9F9DFC0-3FDE-4C54-A729-5E82E0EB4D4D";
             var startTime = new LocalDateTime(2018, 1, 30, 14, 23);
 
-            new WorkshopTestFixture()
+            new WorkshopTestFixture("PlaceOrder_NoProductsAdded_NothingHappens")
                 .Given(new CustomerStartedShoppingEvent(cartId))
                 .When(new PlaceOrderCommand(cartId, startTime))
                 .ThenNothing();
@@ -159,7 +160,7 @@ namespace Workshop.DomainTests
             var customerId = "C9F9DFC0-3FDE-4C54-A729-5E82E0EB4D4D";
             var startTime = new LocalDateTime(2018, 1, 30, 14, 23);
 
-            new WorkshopTestFixture()
+            new WorkshopTestFixture("PlaceOrder_NotStarted_NothingHappens")
                 .When(new PlaceOrderCommand(cartId, startTime))
                 .ThenNothing();
         }
