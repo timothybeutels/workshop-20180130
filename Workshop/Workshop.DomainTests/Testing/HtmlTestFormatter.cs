@@ -57,7 +57,7 @@ namespace Workshop.DomainTests.Testing
                     var value = (object[])p.GetValue(obj);
                     if (value.Any())
                     {
-                        output.AppendLine($"<tr><th>{p.Name}</th><td>");
+                        output.AppendLine($"<tr class=\"{p.Name}\"><th>{p.Name}</th><td>");
 
                         foreach (var v in value)
                         {
@@ -68,12 +68,12 @@ namespace Workshop.DomainTests.Testing
                     }
                     else
                     {
-                        output.AppendLine($"<tr><th>{p.Name}</th><td>[]</td></tr>");
+                        output.AppendLine($"<tr class=\"{p.Name}\"><th>{p.Name}</th><td>[]</td></tr>");
                     }
                 }
                 else
                 {
-                    output.AppendLine($"<tr><th>{p.Name}</th><td>{p.GetValue(obj)}</td></tr>");
+                    output.AppendLine($"<tr class=\"{p.Name}\"><th>{p.Name}</th><td>{p.GetValue(obj)}</td></tr>");
                 }
             }
 
