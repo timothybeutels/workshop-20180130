@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Text;
 
-namespace Workshop.Tests
+namespace Workshop.DomainTests
 {
     public class DomainSpecification
     {
@@ -27,7 +27,7 @@ namespace Workshop.Tests
             List<KeyValuePair<string, string>> generatedCode = new List<KeyValuePair<string, string>>();
             foreach (var cmd in _commands)
             {
-                generatedCode.Add(BuildClass(cmd, "Command", ":DomainCommand", out var toGenerate));
+                generatedCode.Add(BuildClass(cmd, "Command", "", out var toGenerate));
 
                 typesToGenerate.AddRange(toGenerate);
             }

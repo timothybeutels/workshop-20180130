@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Workshop.Tests
+namespace Workshop.DomainTests
 {
     public class WorkshopTestFixture
     {

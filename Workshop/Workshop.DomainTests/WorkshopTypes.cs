@@ -1,4 +1,4 @@
-﻿namespace Workshop.Tests
+﻿namespace Workshop.DomainTests
 {
     public class StartShoppingCommand
     {

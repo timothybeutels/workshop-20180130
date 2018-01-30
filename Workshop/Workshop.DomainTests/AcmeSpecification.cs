@@ -2,7 +2,7 @@
 using NodaTime;
 using NUnit.Framework;
 
-namespace Workshop.Tests
+namespace Workshop.DomainTests
 {
     public class AcmeSpecification
     {
